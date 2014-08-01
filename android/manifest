@@ -1,0 +1,17 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+description: mangareader_parser
+author: Your Name
+license: Specify your license
+copyright: Copyright (c) 2014 by Your Company
+
+# these should not be edited
+name: mangareader_parser
+moduleid: pl.tkrz.mangareader.parser
+guid: eff6be52-75c3-47fb-b8b7-9190affc5ca4
+platform: android
+minsdk: 3.3.0.GA
