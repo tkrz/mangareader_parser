@@ -6,3 +6,4 @@ build.log
 android/build/
 android/.project
 android/.settings/
+android/.classpath
