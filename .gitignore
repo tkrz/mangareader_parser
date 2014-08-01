@@ -1,4 +1,8 @@
 # Build folder and log file
 build/
 build.log
+.settings/
+.project
 android/build/
+android/.project
+android/.settings/
