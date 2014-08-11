@@ -58,7 +58,7 @@ public class MangareaderParserModule extends KrollModule
 	}
 	
 	@Kroll.method
-	public String parseHtml(String html)
+	public String parseMangaList(String html)
 	{
 		JSONArray list = new JSONArray();
 		Document doc = Jsoup.parse(html);

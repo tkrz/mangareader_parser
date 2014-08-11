@@ -6,3 +6,4 @@ android/build/
 android/.settings/
 android/.classpath
 android/libs
+android/dist
