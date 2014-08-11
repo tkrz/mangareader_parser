@@ -8,8 +8,11 @@
  */
 package pl.tkrz.mangareader.parser;
 
-import org.jsoup;
-import org.jsoup.document;
+import org.jsoup.Jsoup;
+import org.jsoup.helper.Validate;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
@@ -17,6 +20,10 @@ import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
+
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 @Kroll.module(name="MangareaderParser", id="pl.tkrz.mangareader.parser")
@@ -53,7 +60,31 @@ public class MangareaderParserModule extends KrollModule
 	@Kroll.method
 	public String parseHtml(String html)
 	{
-		return "Works!"
+		JSONArray list = new JSONArray();
+		Document doc = Jsoup.parse(html);
+		Element wrapper = doc.getElementById("wrapper_body");
+		Elements links = wrapper.getElementsByTag("a");
+		for (Element link : links) {
+			String linkHref = link.attr("href");
+			String linkText = link.text();
+			if(linkHref == "") continue;
+			else if(linkHref == "#") continue;
+			else if(linkHref.indexOf("#") > -1) continue;
+//			Log.i(LCAT, "Link: " + linkText + " - " + linkHref);
+			JSONObject manga = new JSONObject();
+			JSONObject properties = new JSONObject();
+			try {
+                manga.put("title", linkText);
+                manga.put("url", linkHref);
+                properties.put("properties", manga);
+
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+			list.put(properties);
+		}
+		return list.toString();
 	}
 
 	// Properties

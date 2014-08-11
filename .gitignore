@@ -2,8 +2,7 @@
 build/
 build.log
 .settings/
-.project
 android/build/
-android/.project
 android/.settings/
 android/.classpath
+android/libs
