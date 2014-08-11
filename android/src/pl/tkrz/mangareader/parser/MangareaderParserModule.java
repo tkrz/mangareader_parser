@@ -8,6 +8,9 @@
  */
 package pl.tkrz.mangareader.parser;
 
+import org.jsoup;
+import org.jsoup.document;
+
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 
@@ -45,6 +48,12 @@ public class MangareaderParserModule extends KrollModule
 	{
 		Log.d(LCAT, "example called");
 		return "hello world";
+	}
+	
+	@Kroll.method
+	public String parseHtml(String html)
+	{
+		return "Works!"
 	}
 
 	// Properties
