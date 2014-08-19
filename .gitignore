@@ -7,3 +7,5 @@ android/.settings/
 android/.classpath
 android/libs
 android/dist
+android/build.properties
+android/build.xml
