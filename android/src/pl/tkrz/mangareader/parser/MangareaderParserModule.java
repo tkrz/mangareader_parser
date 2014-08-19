@@ -87,9 +87,28 @@ public class MangareaderParserModule extends KrollModule
 		Element mangaImage = doc.getElementById("mangaimg").child(0);
 		Element summary = doc.getElementById("readmangasum");
 		String summaryTxt = doc.getElementsByTag("p").first().text();
+		Elements list = doc.getElementById("listing").getElementsByTag("tr");
+		JSONArray chapterList = new JSONArray();
+		for (Element row : list) {
+			if(row.hasClass("table_head")) continue;
+			String chapterUrl = row.child(0).child(1).attr("href");
+			String chapterTitle = row.child(0).child(1).text() + " " + row.child(0).ownText();
+			JSONObject chapter = new JSONObject();
+			JSONObject properties = new JSONObject();
+			try {
+				chapter.put("url", chapterUrl);
+				chapter.put("title", chapterTitle);
+				properties.put("properties", chapter);
+			} catch (JSONException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+			chapterList.put(properties);
+		}
 		try {
 			details.put("imageUrl", mangaImage.attr("src"));
 			details.put("summary", summaryTxt);
+			details.put("chapters", chapterList);
 		} catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
