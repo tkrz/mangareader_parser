@@ -82,11 +82,29 @@ public class MangareaderParserModule extends KrollModule
 
 	@Kroll.method
 	public String parseMangaDetails(String html){
+		
 		JSONObject details = new JSONObject();
 		Document doc = Jsoup.parse(html);
+		
 		Element mangaImage = doc.getElementById("mangaimg").child(0);
 		Element summary = doc.getElementById("readmangasum");
 		String summaryTxt = doc.getElementsByTag("p").first().text();
+		
+		Elements propertiesTable = doc.getElementsByTag("table").first().getElementsByTag("tr");
+		
+		JSONArray propertyList = new JSONArray();
+		for (Element row : propertiesTable){
+			String propName = row.child(0).ownText();
+			String propValue = row.child(1).ownText();
+			JSONObject property = new JSONObject();
+			try {
+				property.put(propName, propValue);
+			}
+			catch (JSONException e) {
+				e.printStackTrace();
+			}
+			propertyList.put(property);
+		}
 		Elements list = doc.getElementById("listing").getElementsByTag("tr");
 		JSONArray chapterList = new JSONArray();
 		for (Element row : list) {
@@ -107,6 +125,7 @@ public class MangareaderParserModule extends KrollModule
 		}
 		try {
 			details.put("imageUrl", mangaImage.attr("src"));
+			details.put("properties", propertyList);
 			details.put("summary", summaryTxt);
 			details.put("chapters", chapterList);
 		} catch (JSONException e) {
