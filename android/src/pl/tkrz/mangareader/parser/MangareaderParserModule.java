@@ -69,6 +69,7 @@ public class MangareaderParserModule extends KrollModule
 			try {
                 manga.put("title", linkText);
                 manga.put("url", linkHref);
+                manga.put("searchableText", linkText);
                 properties.put("properties", manga);
 
             } catch (JSONException e) {
@@ -92,18 +93,16 @@ public class MangareaderParserModule extends KrollModule
 		
 		Elements propertiesTable = doc.getElementsByTag("table").first().getElementsByTag("tr");
 		
-		JSONArray propertyList = new JSONArray();
+		JSONObject propertyList = new JSONObject();
 		for (Element row : propertiesTable){
 			String propName = row.child(0).ownText();
 			String propValue = row.child(1).ownText();
-			JSONObject property = new JSONObject();
 			try {
-				property.put(propName, propValue);
+				propertyList.put(propName, propValue);
 			}
 			catch (JSONException e) {
 				e.printStackTrace();
 			}
-			propertyList.put(property);
 		}
 		Elements list = doc.getElementById("listing").getElementsByTag("tr");
 		JSONArray chapterList = new JSONArray();
@@ -112,16 +111,14 @@ public class MangareaderParserModule extends KrollModule
 			String chapterUrl = row.child(0).child(1).attr("href");
 			String chapterTitle = row.child(0).child(1).text() + " " + row.child(0).ownText();
 			JSONObject chapter = new JSONObject();
-			JSONObject properties = new JSONObject();
 			try {
 				chapter.put("url", chapterUrl);
 				chapter.put("title", chapterTitle);
-				properties.put("properties", chapter);
 			} catch (JSONException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
-			chapterList.put(properties);
+			chapterList.put(chapter);
 		}
 		try {
 			details.put("imageUrl", mangaImage.attr("src"));
