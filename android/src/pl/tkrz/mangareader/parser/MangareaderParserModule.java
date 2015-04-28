@@ -131,6 +131,28 @@ public class MangareaderParserModule extends KrollModule
         }
 		return details.toString();
 	}
+	
+	@Kroll.method
+	public String getPagesUrl (String html) {
+		
+		JSONArray pagesRef = new JSONArray();
+		Document doc  = Jsoup.parse(html);
+		Elements list = doc.getElementById("pageMenu").getElementsByTag("option");
+		for (Element option : list) {
+			String url = option.attr("value");
+			pagesRef.put(url);
+		}
+		return pagesRef.toString();
+	}
+	
+	@Kroll.method
+	public String getImageUrl (String html) {
+		
+		Document doc = Jsoup.parse(html);
+		
+		return doc.getElementById("img").attr("src");
+		
+	}
 
 }
 
